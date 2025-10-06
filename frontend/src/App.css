@@ -1,0 +1,124 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@plugin "daisyui";
+
+
+/* ui effects */
+
+/* From Uiverse.io by portseif */ 
+.button {
+  align-items: center;
+  background-color: transparent;
+  color: #006d77;
+  cursor: pointer;
+  display: flex;
+  font-family: ui-sans-serif,system-ui,-apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+  font-size: 1rem;
+  line-height: 1;
+  text-decoration: none;
+  text-transform: uppercase;
+  outline: 0;
+  border: 0;
+  padding: 1rem;
+}
+
+.button:before {
+  background-color: #006d77;
+  content: "";
+  display: inline-block;
+  height: 1px;
+  margin-right: 10px;
+  transition: all .42s cubic-bezier(.25,.8,.25,1);
+  width: 0;
+}
+
+.button:hover:before {
+  background-color: #006d77;
+  width: 3rem;
+}
+
+.animateScrollUp{
+  animation: scrollUp 1s ease-out forwards;
+}
+@keyframes scrollUp {
+  0%{
+    transform: translateY(-100%);
+  } 
+  100%{
+    transform: translateY(0%);
+  }
+}
+
+.animateScrollDown{
+  animation: scrollDown 1s ease-out forwards;
+}
+@keyframes scrollDown {
+  0%{
+    transform: translateY(100%);
+  } 
+  100%{
+    transform: translateY(0%);
+  }
+}
+
+
+@keyframes size-pulse {
+  0%, 100% {
+    scale : 1;
+  }
+  50% {
+    scale : 1.02; 
+  }
+}
+
+.animate-size-pulse {
+  animation: size-pulse 2.5s ease-in-out infinite;
+  transform-origin: center;
+}
+
+.typewriter{
+  overflow: hidden;
+  animation : typing 10s ;
+  animation-delay: 1.5s;
+}
+
+@keyframes typing{
+  from {
+    width: 0;
+  }
+  to{
+    width: 100%;
+  }
+}
+
+@font-face {
+  font-family: 'poppins';
+  src: url('./assets/fonts/Poppins-Light.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+} 
+
+.font-poppins{
+  font-family: 'poppins';
+}
+@font-face {
+  font-family: 'poppins-bold';
+  src: url('./assets/fonts/Poppins-Medium.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+} 
+
+.font-poppins-bold{
+  font-family: 'poppins-bold';
+}
+
+.my-swiper .swiper-button-prev,
+.my-swiper .swiper-button-next{
+  color:#006d77;
+}
+
+
+

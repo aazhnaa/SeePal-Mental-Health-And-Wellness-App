@@ -1,0 +1,32 @@
+.tile-excellent {
+  background-color: #ffe066;
+  border-radius: 50%;
+}
+.tile-happy {
+  background-color: #ffc8dd;
+  border-radius: 50%;
+}
+.tile-calm{
+    background-color: #d0f4de;
+    border-radius: 50%;
+}
+.tile-sad {
+  background-color: #74c0fc;
+  border-radius: 50%;
+}
+.tile-depressed {
+  background-color: #0077b6;
+  border-radius: 50%;
+}
+.react-calendar__tile {
+  font-family: 'Poppins', sans-serif;
+  font-size: 16px;
+  color: #333; /* default text color */
+}
+.react-calendar {
+  border-radius: 16px; /* You can increase or decrease as needed */
+  overflow: hidden;
+  border:none;
+  padding: 1rem;
+}
+
