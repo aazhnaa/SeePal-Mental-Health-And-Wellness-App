@@ -19,7 +19,8 @@ export const useMoodStore = create((set, get) => ({
             
             toast.success(`Mood saved`);
         } catch (error) {
-            toast.error(error.response?.data?.message || 'Failed to save mood.');
+            //toast.error(error.response?.data?.message || 'Failed to save mood.');
+            console.log("error in addMood: ", error);
         }
     },
 
@@ -30,7 +31,7 @@ export const useMoodStore = create((set, get) => ({
             const res = await axiosInstance.get('/api/mood/');
             set({ mood: res.data });
         } catch (error) {
-            toast.error(error.response?.data?.message || 'Failed to fetch mood history.');
+            //toast.error(error.response?.data?.message || 'Failed to fetch mood history.');
             console.log("error in getUserMood: ", error);
         } finally {
             set({ isMoodFetching: false });
@@ -45,7 +46,8 @@ export const useMoodStore = create((set, get) => ({
         } catch (error) {
             // This error can be silent if no mood is found for today, which is normal.
             if (error.response?.status !== 404) {
-                 toast.error(error.response?.data?.message || 'Failed to fetch today\'s mood.');
+                 //toast.error(error.response?.data?.message || 'Failed to fetch today\'s mood.');
+                 console.log("error in getTodayMood: ", error);
             }
             console.log("error in getTodayMood: ", error);
         }

@@ -18,20 +18,6 @@ export const useAuthStore = create((set,get)=>({
     searchedUsers:[],
     user:null,
 
-    // handleGetOnlineUsers: (userIds) => {
-    //     set({ onlineUsers: userIds });
-    // },
-
-    // disconnectSocket: () => {
-    //     const { socket, handleGetOnlineUsers } = get();
-    //     if (socket?.connected) {
-    //         // ✅ CHANGE: Clean up the event listener to prevent memory leaks
-    //         socket.off("getOnlineUsers", handleGetOnlineUsers);
-    //         socket.disconnect();
-    //         set({ socket: null, onlineUsers: [] });
-    //     }
-    // },
-
     disconnectSocket:()=>{
         if(get().socket?.connected) get().socket.disconnect()
     },
@@ -78,6 +64,7 @@ export const useAuthStore = create((set,get)=>({
             toast.success("Account created successfully!")
         } catch (error) {
              toast.error(error.response.data.message)
+             console.log("error in signup useAuthStore : ", error);
         }
     },
     signupTherapist:async(data)=>{
@@ -97,7 +84,8 @@ export const useAuthStore = create((set,get)=>({
             toast.success("Logged in successfully!")
             get().connectSocket();
         } catch (error) {
-             toast.error(error.response.data.message)
+            //toast.error(error.response.data.message)
+            console.log("error in login useAuthStore : ", error);
         }
     },
     logout:async()=>{
@@ -107,7 +95,8 @@ export const useAuthStore = create((set,get)=>({
             toast.success("Loggout out successfully!")
             get().disconnectSocket();
         } catch (error) {
-            toast.error(error.response.data.message)
+            //toast.error(error.response.data.message)
+            console.log("error in logout useAuthStore : ", error);
         }
     },
     updateProfile:async(data)=>{
