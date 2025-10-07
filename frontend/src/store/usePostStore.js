@@ -1,55 +1,56 @@
-import {create} from 'zustand';
-import {toast} from 'react-hot-toast';
+import { create } from 'zustand';
+import { toast } from 'react-hot-toast';
 import { axiosInstance } from '../lib/axios';
-import axios from 'axios';
 
-export const usePostStore = create((set,get)=>({
-    posts:[],
-    isPostSending:false,
-    arePostsLoading:false,
-    areUserPostsLoading:false,
-    userPosts:[],
+export const usePostStore = create((set, get) => ({
+    posts: [],
+    isPostSending: false,
+    arePostsLoading: false,
+    areUserPostsLoading: false,
+    userPosts: [],
 
-    createPost:async(data)=>{
-        set({isPostSending:true})
+    createPost: async (data) => {
+        set({ isPostSending: true });
         try {
-            const res = await axiosInstance.post('/posts/create',data);
-            const currentPosts = get().posts; 
-            set({ posts: [res.data, ...currentPosts] });
-            toast.success("posted successfully!")
+            // ✅ CHANGE: Added /api prefix
+            const res = await axiosInstance.post('/api/posts/create', data);
+            
+            // This correctly adds the new post to the beginning of the list
+            set(state => ({ posts: [res.data, ...state.posts] }));
+            
+            toast.success("Posted successfully!");
         } catch (error) {
-            toast.error(error.response.data.message)
-        }
-        finally{
-            set({isPostSending:false})
+            toast.error(error.response?.data?.message || 'Failed to create post.');
+        } finally {
+            set({ isPostSending: false });
         }
     },
 
-    getAllPosts:async()=>{
-        set({arePostsLoading:true})
+    getAllPosts: async () => {
+        set({ arePostsLoading: true });
         try {
-            const res = await axiosInstance.get('/posts/allPosts');
-            set({posts:res.data})
+            // ✅ CHANGE: Added /api prefix
+            const res = await axiosInstance.get('/api/posts/allPosts');
+            set({ posts: res.data });
         } catch (error) {
-            toast.error(error.response.data.message)
-        }
-        finally{
-            set({arePostsLoading:false})
+            toast.error(error.response?.data?.message || 'Failed to fetch posts.');
+        } finally {
+            set({ arePostsLoading: false });
         }
     },
-    
 
-    getUserPost:async(id)=>{
-        set({areUserPostsLoading:true})
+    getUserPost: async (id) => {
+        set({ areUserPostsLoading: true });
         try {
-            //console.log("user's id : ", id);
-            const res = await axiosInstance.get(`/posts/${id}`)
-            set({userPosts:res.data})
+            // ✅ CHANGE: Added /api prefix
+            const res = await axiosInstance.get(`/api/posts/${id}`);
+            set({ userPosts: res.data });
         } catch (error) {
+            // ✅ CHANGE: Added user-facing error toast
+            toast.error(error.response?.data?.message || 'Failed to fetch user posts.');
             console.log('error in getUserPost : ', error);
-        }
-        finally{
-            set({areUserPostsLoading:false})
+        } finally {
+            set({ areUserPostsLoading: false });
         }
     }
-}))
+}));

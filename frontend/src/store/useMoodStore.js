@@ -1,49 +1,53 @@
-import {create} from 'zustand'
-import { axiosInstance } from '../lib/axios.js'
-import toast from 'react-hot-toast'
+import { create } from 'zustand';
+import { axiosInstance } from '../lib/axios.js';
+import toast from 'react-hot-toast';
 
-export const useMoodStore = create((set,get)=>({
-    selectedMood:'',
-    mood:[],
-    isMoodFetching:false,
+export const useMoodStore = create((set, get) => ({
+    selectedMood: '',
+    mood: [],
+    isMoodFetching: false,
 
-    setSelectedMood:(mood)=>{
-        set({selectedMood:mood})
+    setSelectedMood: (mood) => {
+        set({ selectedMood: mood });
     },
 
-    addMood:async(mood)=>{
+    addMood: async (mood) => {
         try {
-            const res = await axiosInstance.post('/mood/',mood)
+            // ✅ CHANGE: Added /api prefix
+            const res = await axiosInstance.post('/api/mood/', mood);
+            set(state => ({ mood: [...state.mood, res.data] }));
+            
             toast.success(`Mood saved`);
         } catch (error) {
-            toast.error(error.response.data.message)
+            toast.error(error.response?.data?.message || 'Failed to save mood.');
         }
     },
 
-    getUserMood : async()=>{
-        set({isMoodFetching:true})
-        //console.log("Axios request to:", axiosInstance.defaults.baseURL + '/mood/');
+    getUserMood: async () => {
+        set({ isMoodFetching: true });
         try {
-            const res = await axiosInstance.get('/mood/')
-            set({mood:res.data})
-            
+            // ✅ CHANGE: Added /api prefix
+            const res = await axiosInstance.get('/api/mood/');
+            set({ mood: res.data });
         } catch (error) {
-            toast.error(error.response.data.message)
+            toast.error(error.response?.data?.message || 'Failed to fetch mood history.');
             console.log("error in getUserMood: ", error);
-        }
-        finally{
-            //console.log("mood fetching process completed : ", get().mood);
-            set({isMoodFetching:false})
+        } finally {
+            set({ isMoodFetching: false });
         }
     },
 
-    getTodayMood : async() =>{
+    getTodayMood: async () => {
         try {
-            const res = await axiosInstance.get("/mood/today");
-            set({selectedMood:res.data})
+            // ✅ CHANGE: Added /api prefix
+            const res = await axiosInstance.get("/api/mood/today");
+            set({ selectedMood: res.data });
         } catch (error) {
-            toast.error(error.response.data.message)
-            console.log("error in getUserMood: ", error);
+            // This error can be silent if no mood is found for today, which is normal.
+            if (error.response?.status !== 404) {
+                 toast.error(error.response?.data?.message || 'Failed to fetch today\'s mood.');
+            }
+            console.log("error in getTodayMood: ", error);
         }
     }
-}))
+}));

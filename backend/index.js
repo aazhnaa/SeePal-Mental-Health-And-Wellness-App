@@ -54,7 +54,6 @@ const app = express();
 const server = http.createServer(app);
 
 // Initialize Socket.IO by passing it the HTTP server
-initSocketServer(server);
 const io = initSocketServer(server);
 app.use((req, res, next) => {
     req.io = io;
@@ -66,7 +65,8 @@ const PORT = process.env.PORT || 8000;
 // --- Apply ALL Middleware Here ---
 
 app.use(cors({
-    origin: process.env.FRONTEND_URL,
+    //origin: process.env.FRONTEND_URL,
+    origin : 'http://localhost:5173',
     credentials: true,
 }));
 app.use(express.json());

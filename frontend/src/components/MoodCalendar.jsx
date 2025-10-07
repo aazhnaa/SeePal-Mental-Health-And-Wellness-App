@@ -20,11 +20,31 @@ const MoodCalendar = () => {
     fetchMood();
   }, []);
 
+  // useEffect(() => {
+  //   const moodByDate = {};
+  //   mood.forEach((entry) => {
+  //     const key = new Date(entry.date).toISOString().split("T")[0];
+  //     moodByDate[key] = entry.mood;
+  //   });
+  //   setMoodMap(moodByDate);
+  // }, [mood]);
+
   useEffect(() => {
     const moodByDate = {};
     mood.forEach((entry) => {
-      const key = new Date(entry.date).toISOString().split("T")[0];
-      moodByDate[key] = entry.mood;
+      // ✅ Add this check to skip invalid entries
+      if (entry && entry.date) {
+        const dateObj = new Date(entry.date);
+        
+        // Check if the created date is valid
+        if (!isNaN(dateObj.getTime())) {
+          const key = dateObj.toISOString().split("T")[0];
+          moodByDate[key] = entry.mood;
+        } else {
+          // Log the problematic entry to help you debug your backend data
+          console.warn("Skipping invalid date entry:", entry);
+        }
+      }
     });
     setMoodMap(moodByDate);
   }, [mood]);

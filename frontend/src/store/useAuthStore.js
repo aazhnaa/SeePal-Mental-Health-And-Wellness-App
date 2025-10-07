@@ -18,14 +18,32 @@ export const useAuthStore = create((set,get)=>({
     searchedUsers:[],
     user:null,
 
+    // handleGetOnlineUsers: (userIds) => {
+    //     set({ onlineUsers: userIds });
+    // },
+
+    // disconnectSocket: () => {
+    //     const { socket, handleGetOnlineUsers } = get();
+    //     if (socket?.connected) {
+    //         // ✅ CHANGE: Clean up the event listener to prevent memory leaks
+    //         socket.off("getOnlineUsers", handleGetOnlineUsers);
+    //         socket.disconnect();
+    //         set({ socket: null, onlineUsers: [] });
+    //     }
+    // },
+
+    disconnectSocket:()=>{
+        if(get().socket?.connected) get().socket.disconnect()
+    },
 
     connectSocket:()=>{
         const {authUser} = get();
         if(!authUser || get().socket?.connected) return;
         const socket = io(BASE_URL,{
-            query:{
-                userId : authUser._id,  
-            }
+            // query:{
+            //     userId : authUser._id,  
+            // }
+            withCredentials: true 
         });
         socket.connect();
         set({socket:socket})
@@ -35,13 +53,10 @@ export const useAuthStore = create((set,get)=>({
             set({onlineUsers:userIds})
         })
     },
-    disconnectSocket:()=>{
-        if(get().socket?.connected) get().socket.disconnect()
-    },
 
     checkAuth:async()=>{
         try {
-            const res = await axiosInstance.get("/check")
+            const res = await axiosInstance.get("/api/check")
             set({authUser:res.data})
             //const {authUser} = get();
             //console.log("in checkAuth, user's id : ", authUser._id);
@@ -57,7 +72,7 @@ export const useAuthStore = create((set,get)=>({
      },
     signup:async(data)=>{
         try {
-            const res = await axiosInstance.post('/signup',data)
+            const res = await axiosInstance.post('/api/signup',data)
             get().connectSocket();
             set({authUser:res.data})
             toast.success("Account created successfully!")
@@ -67,7 +82,7 @@ export const useAuthStore = create((set,get)=>({
     },
     signupTherapist:async(data)=>{
         try {
-            const res = await axiosInstance.post('/signup/therapist',data)
+            const res = await axiosInstance.post('/api/signup/therapist',data)
             get().connectSocket();
             set({authUser:res.data})
             toast.success("Account created successfully!")
@@ -77,7 +92,7 @@ export const useAuthStore = create((set,get)=>({
     },
     login:async(data)=>{
         try {
-            const res = await axiosInstance.post('/login',data)
+            const res = await axiosInstance.post('/api/login',data)
             set({authUser:res.data})
             toast.success("Logged in successfully!")
             get().connectSocket();
@@ -87,7 +102,7 @@ export const useAuthStore = create((set,get)=>({
     },
     logout:async()=>{
         try {
-            await axiosInstance.post("/logout")
+            await axiosInstance.post("/api/logout")
             set({authUser:null})
             toast.success("Loggout out successfully!")
             get().disconnectSocket();
@@ -98,7 +113,7 @@ export const useAuthStore = create((set,get)=>({
     updateProfile:async(data)=>{
         set({isUpdatingProfile:true})
         try {
-            const res = await axiosInstance.put('/updateProfile',data)
+            const res = await axiosInstance.put('/api/updateProfile',data)
             set({authUser:res.data})
             toast.success("Profile updated successfully!")
         } catch (error) {
@@ -110,7 +125,7 @@ export const useAuthStore = create((set,get)=>({
     },
     getFollowers:async(userId)=>{
         try {            
-            const res = await axiosInstance.get(`/followers/${userId}`)
+            const res = await axiosInstance.get(`/api/followers/${userId}`)
             set({followers:res.data})
             
         } catch (error) {
@@ -120,7 +135,7 @@ export const useAuthStore = create((set,get)=>({
     },
     getFollowings:async(userId)=>{
         try {
-            const res = await axiosInstance.get(`/followings/${userId}`)
+            const res = await axiosInstance.get(`/api/followings/${userId}`)
             set({followings:res.data})
             const {followings} = get()
             console.log(followings)
@@ -138,7 +153,7 @@ export const useAuthStore = create((set,get)=>({
     },
     getUserByUsername : async(query)=>{
         try {
-            const res = await axiosInstance.get(`/search?query=${query}`);
+            const res = await axiosInstance.get(`/api/search?query=${query}`);
             set({searchedUsers:res.data})
         } catch (error) {
             console.log('error in getUserByUsername in useAuthStore : ', error);
@@ -146,7 +161,7 @@ export const useAuthStore = create((set,get)=>({
     },
     getUserById : async(userId) =>{
         try {
-            const res = await axiosInstance.get(`/search/${userId}`); 
+            const res = await axiosInstance.get(`/api/search/${userId}`); 
             set({user:res.data})
         } catch (error) {
              console.log('error in getUserById in useAuthStore : ', error);
