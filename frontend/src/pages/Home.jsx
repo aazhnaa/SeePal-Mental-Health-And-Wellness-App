@@ -5,7 +5,7 @@ const Home = () => {
     <div className="  h-fit relative bg-white overflow-hidden ">
       <div className='floating_logo size-40 md:size-72 bg-[url("./logo.png")] bg-cover bg-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0 animate-size-pulse cursor-pointer'></div>
 
-      <div className="upper-box mb-60 sm:mb-0 h-1/2 w-full bg-transparent pl-4 p-12 overflow-hidden animateScrollUp">
+      <div className="upper-box mb-60 sm:mb-0 bg-transparent h-1/2 w-full pl-4 p-12 overflow-hidden">
         <h1 className="text-3xl md:text-6xl  font-poppins-bold text-brand  pl-4 pt-4 md:pt-4 md:pl-4">
           For a strong and
         </h1>
