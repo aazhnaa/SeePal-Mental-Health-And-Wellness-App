@@ -156,7 +156,7 @@ const Navbar = () => {
             <button onClick={handleToggle} className="flex flex-col gap-2  ">
               <RxHamburgerMenu className="text-brand" />
               {isOpen ? (
-                <div className="dropdown-content absolute top-16 right-2 bg-brand text-white p-4 flex flex-col justify-center rounded-lg shadow-lg">
+                <div className="dropdown-content absolute top-16 right-2 bg-brand text-white p-4 flex flex-col justify-center rounded-lg shadow-lg z-10">
                   <NavLink to="/profile">
                     <div className="w-10 rounded-full overflow-hidden">
                       <img

@@ -17,14 +17,14 @@ const Profile = () => {
 
     useEffect(() => {
     checkAuth();
-    console.log("authUser : ", authUser._id);
+    //console.log("authUser : ", authUser._id);
   }, [checkAuth]);
 
   useEffect(() => {
     const fetchEntries = async (id) => {
       setIsEntryLoading(true);
       try {
-        const res = await axiosInstance.get(`/entry/${id}`);
+        const res = await axiosInstance.get(`/api/entry/${id}`);
         setEntry(res.data);
       } catch (error) {
         console.log(
@@ -48,7 +48,7 @@ const Profile = () => {
   const handleGetFollowers = async(e)=>{
       e.preventDefault()
       try {
-        console.log('sending id : ', authUser._id)
+        //console.log('sending id : ', authUser._id)
         await getFollowers(authUser._id)
       } catch (error) {
         console.log('error while fetching followers :', error)
@@ -57,7 +57,7 @@ const Profile = () => {
     const handleGetFollowings = async(e)=>{
       e.preventDefault()
       try {
-        console.log('sending id : ', authUser._id)
+        //console.log('sending id : ', authUser._id)
         await getFollowings(authUser._id)
       } catch (error) {
         console.log('error while fetching followers :', error)
@@ -65,7 +65,7 @@ const Profile = () => {
     }
 
 
-  console.log("authUser : ", authUser.fullName);
+  //console.log("authUser : ", authUser.fullName);
 
   if (isCheckingAuth && !authUser)
     return (

@@ -30,8 +30,6 @@ function Login() {
             </p>
           </h2>
 
-          
-
           <div className="form-control">
             <label className="label">
               <span className="label-text">Username or Email</span>
@@ -81,7 +79,7 @@ function Login() {
 
           <div className="form-control mt-6">
             <button className="bg-brand btn text-white hover:bg-dark_brand">
-              Login
+              {isLoggingIn?"Logging in...":"Login"}
             </button>
           </div>
         </form>
